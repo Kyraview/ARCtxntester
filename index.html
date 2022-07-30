@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="snapalgo/dist/index_bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/algosdk@1.16.0/dist/browser/algosdk.min.js"></script>
+</head>
+
+<body>
+  <h2>SignTxnTester</h2>
+  <button id='connectButton'>connect</button>
+  <div id='testScreen' style='display: none;'>
+    <h4 id='fromAddress'></h4>
+    <h4 id='toAddress'></h4>
+    <hr/>
+    
+    <div style='display:flex; height:30px;'>
+      <h4 id='appIndex' style='margin:0 20px 0 20px;'>current appIndex not set</h4>
+      <textarea id='appIndexBox'></textarea>
+      <button id='appIndexButton'>set appIndex</button>
+    </div>
+    
+    <h4>applicationCallTxn</h4>
+    <button id='applCall'>success</button>
+    <button id='applCallFail'>failure</button>
+
+    <h4>applicationClearStateTxn</h4>
+    <button id='applClearState'>success</button>
+    <button id='applClearStateFail'>failure</button>
+
+    <h4>applicationCloseOutTxn</h4>
+    <button id='applCloseOut'>success</button>
+    <button id='applCloseOutFail'>failure</button>
+    
+    <h4>applicationCreateTxn</h4>
+    <button id='applCreate'>success</button>
+    <button id='applCreateFail'>failure</button>
+
+    <h4>applicationDeleteTxn</h4>
+    <button id='applDelete'>success</button>
+    <button id='applDeleteFail'>failure</button>
+
+    <h4>applicationNoOpTxn</h4>
+    <button id='applNoOp'>success</button>
+    <button id='applNoOpFail'>failure</button>
+
+    <h4>applicationOptInTxn</h4>
+    <button id='applOptIn'>success</button>
+    <button id='applOptInFail'>failure</button>
+
+    <h4>applicationUpdate</h4>
+    <button id='applUpdate'>success</button>
+    <button id='applUpdateFail'>failure</button>
+
+    <hr/>
+
+    <div style='display:flex; height:30px;'>
+      <h4 id='assetIndex' style='margin:0 20px 0 20px;'>current assetIndex not set</h4>
+      <textarea id='assetIndexBox'></textarea>
+      <button id='assetIndexButton'>set assetIndex</button>
+    </div>
+
+    <h4>assetConfigTxn</h4>
+    <button id='assetConfig'>success</button>
+    <button id='assetConfigFail'>failure</button>
+    
+    <h4>assetCreateTxn</h4>
+    <button id='assetCreate'>success</button>
+    <button id='assetCreateFail'>failure</button>
+
+    <h4>assetDestroyTxn</h4>
+    <button id='assetDestroy'>success</button>
+    <button id='assetDestroyFail'>failure</button>
+
+    <h4>assetFreezeTxn</h4>
+    <button id='assetFreeze'>success</button>
+    <button id='assetFreezeFail'>failure</button>
+    <input type="checkbox" id="freezeToggle">
+    <label for="freezeToggle"> Check to unfreeze</label>
+
+    <h4>assetTransferTxn</h4>
+    <button id='assetTransfer'>success</button>
+    <button id='assetTransferFail'>failure</button>
+
+    <hr/>
+    
+    <h4>paymentTxn</h4>
+    <button id='pay'>success</button>
+    <button id='payFail'>failure</button>
+  </div>
+
+  <div style='height:200px'/>
+  <script src="script.js"></script>
+</body>
+
+</html>
