@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>replit</title>
+  <title>AlgoTxnSignTester</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
-  <script src="snapalgo/dist/index_bundle.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/algosdk@1.16.0/dist/browser/algosdk.min.js"></script>
+  <script src="https://unpkg.com/algosdk@v1.19.1/dist/browser/algosdk.min.js"></script>
+  <script src="https://unpkg.com/snapalgo-sdk/dist/index_bundle.js"></script>
 </head>
 
 <body>
@@ -16,6 +16,10 @@
   <div id='testScreen' style='display: none;'>
     <h4 id='fromAddress'></h4>
     <h4 id='toAddress'></h4>
+    <div style='display:flex; height:30px;'>
+      <textarea id='receiverBox'></textarea>
+      <button id='receiverButton'>set receiver address</button>
+    </div>
     <hr/>
     
     <div style='display:flex; height:30px;'>
@@ -27,34 +31,50 @@
     <h4>applicationCallTxn</h4>
     <button id='applCall'>success</button>
     <button id='applCallFail'>failure</button>
+    <label for="applCall">Choose a cause of failure:</label>
+    <select name="applCall" id="applCallSelect"></select>
 
     <h4>applicationClearStateTxn</h4>
     <button id='applClearState'>success</button>
     <button id='applClearStateFail'>failure</button>
+    <label for="applClearState">Choose a cause of failure:</label>
+    <select name="applClearState" id="applClearStateSelect"></select>
 
     <h4>applicationCloseOutTxn</h4>
     <button id='applCloseOut'>success</button>
     <button id='applCloseOutFail'>failure</button>
+    <label for="applCloseOut">Choose a cause of failure:</label>
+    <select name="applCloseOut" id="applCloseOutSelect"></select>
     
     <h4>applicationCreateTxn</h4>
     <button id='applCreate'>success</button>
     <button id='applCreateFail'>failure</button>
+    <label for="applCreate">Choose a cause of failure:</label>
+    <select name="applCreate" id="applCreateSelect"></select>
 
     <h4>applicationDeleteTxn</h4>
     <button id='applDelete'>success</button>
     <button id='applDeleteFail'>failure</button>
+    <label for="applDelete">Choose a cause of failure:</label>
+    <select name="applDelete" id="applDeleteSelect"></select>
 
     <h4>applicationNoOpTxn</h4>
     <button id='applNoOp'>success</button>
     <button id='applNoOpFail'>failure</button>
+    <label for="applNoOp">Choose a cause of failure:</label>
+    <select name="applNoOp" id="applNoOpSelect"></select>
 
     <h4>applicationOptInTxn</h4>
     <button id='applOptIn'>success</button>
     <button id='applOptInFail'>failure</button>
+    <label for="applOptIn">Choose a cause of failure:</label>
+    <select name="applOptIn" id="applOptInSelect"></select>
 
     <h4>applicationUpdate</h4>
     <button id='applUpdate'>success</button>
     <button id='applUpdateFail'>failure</button>
+    <label for="applUpdate">Choose a cause of failure:</label>
+    <select name="applUpdate" id="applUpdateSelect"></select>
 
     <hr/>
 
@@ -67,30 +87,42 @@
     <h4>assetConfigTxn</h4>
     <button id='assetConfig'>success</button>
     <button id='assetConfigFail'>failure</button>
+    <label for="assetConfig">Choose a cause of failure:</label>
+    <select name="assetConfig" id="assetConfigSelect"></select>
     
     <h4>assetCreateTxn</h4>
     <button id='assetCreate'>success</button>
     <button id='assetCreateFail'>failure</button>
+    <label for="assetCreate">Choose a cause of failure:</label>
+    <select name="assetCreate" id="assetCreateSelect"></select>
 
     <h4>assetDestroyTxn</h4>
     <button id='assetDestroy'>success</button>
     <button id='assetDestroyFail'>failure</button>
+    <label for="assetDestroy">Choose a cause of failure:</label>
+    <select name="assetDestroy" id="assetDestroySelect"></select>
 
     <h4>assetFreezeTxn</h4>
     <button id='assetFreeze'>success</button>
     <button id='assetFreezeFail'>failure</button>
+    <label for="assetFreeze">Choose a cause of failure:</label>
+    <select name="assetFreeze" id="assetFreezeSelect"></select>
     <input type="checkbox" id="freezeToggle">
     <label for="freezeToggle"> Check to unfreeze</label>
 
     <h4>assetTransferTxn</h4>
     <button id='assetTransfer'>success</button>
     <button id='assetTransferFail'>failure</button>
+    <label for="assetTransfer">Choose a cause of failure:</label>
+    <select name="assetTransfer" id="assetTransferSelect"></select>
 
     <hr/>
     
     <h4>paymentTxn</h4>
     <button id='pay'>success</button>
     <button id='payFail'>failure</button>
+    <label for="paySelect">Choose a cause of failure:</label>
+    <select name="paySelect" id="paySelect"></select>
   </div>
 
   <div style='height:200px'/>

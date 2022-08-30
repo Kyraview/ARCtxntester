@@ -1,4 +1,3 @@
-var algodClient;
 const enc = new TextEncoder();
 let deployParams = {
   amount:10000,
@@ -21,17 +20,22 @@ let deployParams = {
   to: '3SEDSWOE5TFHTNOGRYQKBJFCPMOHGLXOZSPHCYKZMEXRCNRZOQUFBORM4A',
   total: 10000
 }
+const commonParams = ["type", "from", "fee", "firstRound", "lastRound", "genesisHash", "genesisId", "group", "lease", "note", "reKeyTo"];
+const payParams = ['to', 'amount', 'closeRemainderTo'];
+const acfgParams = ['assetIndex', 'assetDecimals', 'assetDefaultFrozen', 'assetTotal', 'assetClawback', 'assetFreeze', 'assetManager', 'assetReserve', 'assetMetadataHash', 'assetName', 'assetURL', 'assetUnitName'];
+const axferParams = ['amount', 'assetIndex', 'to', 'closeRemainderTo', 'assetRevocationTarget'];
+const afrzParams = ['assetIndex', 'freezeAccount', 'freezeState'];
+const applParams = ['appApprovalProgram', 'appClearProgram', 'appGlobalByteSlices', 'appGlobalInts', 'appLocalByteSlices', 'appLocalInts', 'appIndex', 'appOnComplete', 'accounts', 'appArgs', 'extraPages', 'appForeignApps', 'appForeignAssets'];
+var algodClient;
 
 async function connect(){
-  try{
+  try {
     window.snapalgo = new SnapAlgo.Wallet();
     await window.algorand.enable();
-    let algodClientParams = await window.algorand.getAlgodv2Client();
-    algodClient = new algosdk.Algodv2(algodClientParams);
     document.getElementById('connectButton').style.display = 'none';
     document.getElementById('testScreen').style.display = 'block';
     updateAddress();
-  } catch (err){
+  } catch(err) {
     alert(err.message);
   }
 }
@@ -52,7 +56,6 @@ async function updateAddress(){
 
 async function signAndPost(txn){
   try{
-    console.log(txn);
     const response = await window.algorand.EZsignAndPost(txn);
     if (typeof response === 'string' && response.length === 52){
       alert('Signed successful\ntxId: '+response);
@@ -62,8 +65,15 @@ async function signAndPost(txn){
   }
 }
 
+async function getParams(){
+  let algodClientParams = await window.algorand.getAlgodv2Client();
+  let algodClient = await new algosdk.Algodv2(algodClientParams);
+  let params = await algodClient.getTransactionParams().do();
+  return params;
+}
+
 async function applCall(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -75,7 +85,7 @@ async function applCall(){
 }
 
 async function applCallFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -83,12 +93,12 @@ async function applCallFail(){
     suggestedParams:params
   }
   let txn = algosdk.makeApplicationCallTxnFromObject(tempParams);
-  txn.appIndex=-5;
+  txn[document.getElementById('applCallSelect').value]=-5;
   signAndPost(txn);
 }
 
 async function applClearState(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   console.log(params);
   let tempParams = {
     appIndex:deployParams.appIndex,
@@ -100,7 +110,7 @@ async function applClearState(){
 }
 
 async function applClearStateFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -112,7 +122,7 @@ async function applClearStateFail(){
 }
 
 async function applCloseOut(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -123,7 +133,7 @@ async function applCloseOut(){
 }
 
 async function applCloseOutFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -135,7 +145,7 @@ async function applCloseOutFail(){
 }
 
 async function applCreate(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     approvalProgram:deployParams.approvalProgram,
@@ -153,7 +163,7 @@ async function applCreate(){
 }
 
 async function applCreateFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     approvalProgram:deployParams.approvalProgram,
@@ -172,7 +182,7 @@ async function applCreateFail(){
 }
 
 async function applDelete(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -183,7 +193,7 @@ async function applDelete(){
 }
 
 async function applDeleteFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -195,7 +205,7 @@ async function applDeleteFail(){
 }
 
 async function applNoOp(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -206,7 +216,7 @@ async function applNoOp(){
 }
 
 async function applNoOpFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -218,7 +228,7 @@ async function applNoOpFail(){
 }
 
 async function applOptIn(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -229,7 +239,7 @@ async function applOptIn(){
 }
 
 async function applOptInFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     from:deployParams.from,
@@ -241,7 +251,7 @@ async function applOptInFail(){
 }
 
 async function applUpdate(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     approvalProgram:deployParams.approvalProgram,
@@ -254,7 +264,7 @@ async function applUpdate(){
 }
 
 async function applUpdateFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     appIndex:deployParams.appIndex,
     approvalProgram:deployParams.approvalProgram,
@@ -268,7 +278,7 @@ async function applUpdateFail(){
 }
 
 async function assetConfig(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     assetIndex:deployParams.assetIndex,
     from:deployParams.from,
@@ -280,7 +290,7 @@ async function assetConfig(){
 }
 
 async function assetConfigFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     assetIndex:deployParams.assetIndex,
     from:deployParams.from,
@@ -293,7 +303,7 @@ async function assetConfigFail(){
 }
 
 async function assetCreate(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     decimals:deployParams.decimals,
     defaultFrozen:deployParams.defaultFrozen,
@@ -308,7 +318,7 @@ async function assetCreate(){
 }
 
 async function assetCreateFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     decimals:deployParams.decimals,
     defaultFrozen:deployParams.defaultFrozen,
@@ -324,7 +334,7 @@ async function assetCreateFail(){
 }
 
 async function assetDestroy(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     assetIndex:deployParams.assetIndex,
     from:deployParams.from,
@@ -335,7 +345,7 @@ async function assetDestroy(){
 }
 
 async function assetDestroyFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     assetIndex:deployParams.assetIndex,
     from:deployParams.from,
@@ -348,7 +358,7 @@ async function assetDestroyFail(){
 
 async function assetFreeze(){
   let freezeState = !document.getElementById('freezeToggle').checked;
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     assetIndex:deployParams.assetIndex,
     freezeState:freezeState,
@@ -362,7 +372,7 @@ async function assetFreeze(){
 
 async function assetFreezeFail(){
   let freezeState = !document.getElementById('freezeToggle').checked;
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     assetIndex:deployParams.assetIndex,
     freezeState:freezeState,
@@ -376,7 +386,7 @@ async function assetFreezeFail(){
 }
 
 async function assetTransfer(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     amount:deployParams.amount,
     assetIndex:deployParams.assetIndex,
@@ -389,7 +399,7 @@ async function assetTransfer(){
 }
 
 async function assetTransferFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     amount:deployParams.amount,
     assetIndex:deployParams.assetIndex,
@@ -403,7 +413,7 @@ async function assetTransferFail(){
 }
 
 async function pay(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     amount:deployParams.amount,
     from:deployParams.from,
@@ -415,7 +425,7 @@ async function pay(){
 }
 
 async function payFail(){
-  let params =  await algodClient.getTransactionParams().do();
+  let params = await getParams();
   let tempParams = {
     amount:deployParams.amount,
     from:deployParams.from,
@@ -423,7 +433,7 @@ async function payFail(){
     to:deployParams.to
   }
   let txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject(tempParams);
-  txn.to=0;
+  txn[document.getElementById('paySelect').value]=-5;
   signAndPost(txn);
 }
 
@@ -447,9 +457,43 @@ function setAssetIndex(){
   }
 }
 
+async function setReceiver(){
+  try{
+  let address = document.getElementById('receiverBox').value;
+  let isValid = await window.ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: ["npm:algorand",{
+          method: 'isValidAddress',
+          address: address
+      }]
+  });
+  if (isValid) {
+    deployParams.to = address;
+    updateAddress();
+  } else {
+    alert('Address is not valid');
+  }
+  } catch (err) {
+    alert(err);
+  }
+}
+
+function generateOptions(opts, id){
+  let options = commonParams;
+  options = options.concat(opts);
+  let x = document.getElementById(id);
+  for(let i=0;i<options.length;i++){
+    let option = document.createElement("option");
+    option.text = options[i];
+    option.value = options[i];
+    x.add(option);
+  }
+}
+
 document.getElementById("connectButton").addEventListener("click", connect);
 document.getElementById("appIndexButton").addEventListener("click", setAppIndex);
 document.getElementById("assetIndexButton").addEventListener("click", setAssetIndex);
+document.getElementById("receiverButton").addEventListener("click", setReceiver);
 
 document.getElementById("applCall").addEventListener("click", applCall);
 document.getElementById("applCallFail").addEventListener("click", applCallFail);
@@ -479,3 +523,18 @@ document.getElementById("assetTransfer").addEventListener("click", assetTransfer
 document.getElementById("assetTransferFail").addEventListener("click", assetTransferFail);
 document.getElementById("pay").addEventListener("click", pay);
 document.getElementById("payFail").addEventListener("click", payFail);
+
+generateOptions(applParams, 'applCallSelect');
+generateOptions(applParams, 'applClearStateSelect');
+generateOptions(applParams, 'applCloseOutSelect');
+generateOptions(applParams, 'applCreateSelect');
+generateOptions(applParams, 'applDeleteSelect');
+generateOptions(applParams, 'applNoOpSelect');
+generateOptions(applParams, 'applOptInSelect');
+generateOptions(applParams, 'applUpdateSelect');
+generateOptions(acfgParams, 'assetConfigSelect');
+generateOptions(acfgParams, 'assetCreateSelect');
+generateOptions(acfgParams, 'assetDestroySelect');
+generateOptions(afrzParams, 'assetFreezeSelect');
+generateOptions(axferParams, 'assetTransferSelect');
+generateOptions(payParams, 'paySelect');
